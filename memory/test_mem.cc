@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    const int blk = 8, total = 2048;
+    const int blk = 128, total = 2048;
     auto memPool = new MemCtl<blk, total>();
     int* test[32];
     int cnt = blk/sizeof(int); 
@@ -21,9 +21,11 @@ int main(){
         }
         cout << endl;
     }
+    memPool->info();
     int* a = static_cast<int*>(memPool->malloc());
     int* b = static_cast<int*>(memPool->malloc());
     // cnt+=1; //test out-of-range
+    memPool->info();
     for(int i = 0; i < cnt; ++i){
         a[i] = i;
     }

@@ -17,9 +17,11 @@ private:
     };
     Block_* freeNodeHeader_;
     MemCtlBlk_* memCtlBlkHeader_;
+    int mBlkCnt;
+    int blkCnt;
 
 public:
-    MemCtl(): freeNodeHeader_(nullptr), memCtlBlkHeader_(nullptr){
+    MemCtl(): freeNodeHeader_(nullptr), memCtlBlkHeader_(nullptr), mBlkCnt(0), blkCnt(0){
 
     }
 
@@ -37,6 +39,8 @@ public:
         if(freeNodeHeader_ == nullptr){
             int cnt = totalSize_/blkSize_;
             MemCtlBlk_* newMem = new MemCtlBlk_();
+            ++mBlkCnt;
+            blkCnt += cnt;
             for(int i = 0; i < cnt-1; ++i){
                 newMem->data_[i].next_ = &newMem->data_[i+1];
             }
@@ -62,6 +66,10 @@ public:
         Block_* usedBlock = static_cast<Block_*>(p);
         usedBlock->next_ = freeNodeHeader_;
         freeNodeHeader_ = usedBlock;
+    }
+
+    void info(){
+        std::cout << "memCtlBlk number: " << mBlkCnt << "\nBlock_ number: " << blkCnt << std::endl;
     }
 };
 
