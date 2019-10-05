@@ -23,6 +23,16 @@ public:
 
     }
 
+    ~MemCtl(){
+        auto p = memCtlBlkHeader_;
+        while(p != nullptr){
+            std::cout << "delete memCtlBlk" << std::endl;
+            auto t = p;
+            p = p->next_;
+            delete t;
+        }
+    }
+
     void* malloc(){
         if(freeNodeHeader_ == nullptr){
             int cnt = totalSize_/blkSize_;
@@ -31,14 +41,15 @@ public:
                 newMem->data_[i].next_ = &newMem->data_[i+1];
             }
             newMem->data_[cnt-1].next_ = nullptr;
+            newMem->next_ = nullptr;
             freeNodeHeader_ = &newMem->data_[0];
             if(memCtlBlkHeader_ == nullptr){
                 std::cout << "First memCtlBlk" << std::endl;
                 memCtlBlkHeader_ = newMem;
-                memCtlBlkHeader_->next_ = nullptr;
             }else{
                 std::cout << "New memCtlBlk" << std::endl;
-                memCtlBlkHeader_->next_ = newMem;
+                newMem->next_ = memCtlBlkHeader_;
+                memCtlBlkHeader_ = newMem;
             }
         }
 

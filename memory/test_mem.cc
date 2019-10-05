@@ -55,6 +55,7 @@ int main(){
         cout << b[i] << ", ";
     }
     cout << endl;
+    delete memPool;
 
     return 0;
 }
