@@ -4,9 +4,10 @@
 using namespace std;
 
 int main(){
-    auto memPool = new MemCtl<128, 2048>();
+    const int blk = 8, total = 2048;
+    auto memPool = new MemCtl<blk, total>();
     int* test[32];
-    int cnt = 128/sizeof(int); 
+    int cnt = blk/sizeof(int); 
     for(int i = 0; i < 32; ++i){
         test[i] = static_cast<int*>(memPool->malloc());
         for(int j = 0; j < cnt; ++j){
